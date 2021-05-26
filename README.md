@@ -49,8 +49,8 @@ Get the longest ORFs from all assembled transcripts and translate the coding seq
 > trans2prot(bg, genome, mex, minsize=50, mincov=1, MSTRG="At")
 
 ### Return:
-<pre>A list of AAStringSet of protein sequences, GRangesList of transcripts, GRangesList of ORFs containing 
-all coding exons and GRangeslist of ORFs containing coding microexons. </pre>
+<pre>A list of AAStringSet of protein sequences, GRangesList of transcripts, GRangesList of ORFs containing all 
+coding exons and GRangeslist of ORFs containing coding microexons. </pre>
 
 ## 4. classify.R
 Classify coding microexons:
@@ -79,5 +79,4 @@ Find miroexons in a plant genome.
         span=20000, min.intron=20, max.intron=10000, cores=1)
         
 ### Return
-<pre>A GRanges of microexons and the flanking exons and introns in all clusters
-in a plant genome. </pre>
+<pre>A GRanges of microexons and the flanking exons and introns in all clusters in a plant genome. </pre>
