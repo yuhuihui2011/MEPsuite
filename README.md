@@ -1,5 +1,5 @@
-# Microexons_in_plants
-Codes for discovery, analysis and prediction of microexons in plants
+# MEP
+Discovery and Prediction of **M**icro**E**xons in **P**lants
 
 ## 1. golden_map.py
 A python pipeline of short-read RNA-seq mapping in plants: 
