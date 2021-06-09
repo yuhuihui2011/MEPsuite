@@ -52,12 +52,12 @@ Get the longest ORFs from all assembled transcripts and translate the coding seq
 <pre>A list of AAStringSet of protein sequences, GRangesList of transcripts, GRangesList of ORFs containing all 
 coding exons and GRangeslist of ORFs containing coding microexons. </pre>
 
-## 4. classify.R
-Classify coding microexons:
+## 4. cluster.R
+Cluster coding microexons:
 1. Get the position and the phase of miroexons in coding sequences and proteins
 2. Search protein motifs (https://www.genome.jp/tools/motif/)
 3. Extract motifs encoded by microexons
-4. Classify microexons according to the size and phase, and the miroexon-tags
+4. Cluster microexons according to the size and phase, and the miroexon-tags
 
 ## 5. mapPWM.R
 Map gapped PWM to a genome.
