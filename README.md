@@ -1,6 +1,8 @@
 # MEP
 Discovery and Prediction of **M**icro**E**xons in **P**lants
 
+![MEP_workflow](MEP_worflow.png)
+
 ## 1. golden_map.py
 A python pipeline of short-read RNA-seq mapping in plants: 
 1. First round of mappping using [STAR](https://github.com/alexdobin/STAR)
