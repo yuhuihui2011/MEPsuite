@@ -1,5 +1,7 @@
-# MEP
-Discovery and Prediction of **M**icro**E**xons in **P**lants
+# MEP: Discovery and Prediction of **M**icro**E**xons in **P**lants
+
+### The pipeline golden_map.py can be used for general RNA-seq mapping and gene expression analysis in plants.
+### There is a strand-alone tool [MEPscan](https://github.com/yuhuihui2011/MEPscan) for micreoxon prediction in plants. 
 
 ![MEP_workflow](MEP_workflow.png)
 
@@ -35,14 +37,41 @@ Options:
   -a, --assemble   assemble novel transcripts
 </pre>
 
+### Example:
+> python3 ./golden_map.py -i simulated_reads -p .fq.gz -l 50 -f A.thaliana.fa -x star_idx -n 12 -j olego_junc.SJ -g A.thaliana.gtf -e -a
++ The file pattern (-p) is the suffix of fastq files. For paired end, the pattern must contain the number 1 and the pipeline will search and match the second read files; otherwise, will treat as single end.
++ The input (-i) can be a path to the directory or a file list containing the paths to all the fastq files, one per line (files will be automatically paired according to the pattern). 
++ GZ or BZ2 compressed files can be accepted.
++ Extra intron junction file (-j) should contains 4 columns: separated by tabs Chr\tStart\tEnd\tStrand and will pass to '--sjdbFileChrStartEnd' for STAR. Please note that Start and End are first and last bases of the introns (1-based chromosome coordinates), which are different from those in OLego junction file (in BED format). For more information, see [STAR](https://github.com/alexdobin/STAR) and [OLego](https://github.com/chaolinzhanglab/olego).
++ The sorted bam files are in "map2" directory and expression files are in "ballgown" directory.
++ The assembled transcrpts are in merged.gtf file.
++ To collect exon/intron/transcript level expression, open R and run:  
+```{r}
+ library(ballgown)
+ bg<-ballgown(samples=list.dirs("ballgown",recursive = FALSE))
+ bg
+```
+
 ## 2. getex.R
 Get the coordinates of internal exons and the flanking introns from a ballgown object.
 
 ### Usage:
-> getex(bg, genome, min.junction=5,samples=sampleNames(bg))
+> getex(bg, genome, min.junction=5, min.samples=1)
 
 ### Return:
 <pre>A list of exon and intron GRanges. The microexons are the smallest internal exons with the size <= 15 nt.</pre>
+
+### Example:
+```{r}
+library(ballgown)
+library(GenomicRanges)
+library(Biostrings)
+library(BSgenome)
+genome<-readDNAStringSet("A.thaliana.fa")
+names(genome)<-sub("^(\\S+)\\s+.*","\\1",names(genome))
+splice<-getex(bg_at, genome)
+mex<-splice$ex[width(splice$ex)<=15]
+```
 
 ## 3. trans2prot.R
 Get the longest ORFs from all assembled transcripts and translate the coding sequences to proteins
@@ -65,7 +94,7 @@ Cluster coding microexons:
 Map gapped PWM to a genome.
 
 ### Usage:
-> mapPWM(cons,exons,genome,focus=2, min.score='80%',include.intronLoss=TRUE,
+> mapPWM(cons,exons,genome,focus=2, min.score="80%",include.intronLoss=TRUE,
          span=20000, min.intron=20, max.intron=10000, 
          prior.params=letterFrequency(genome[[1]],DNA_BASES,as.prob = T),
          cores=1, check.params=TRUE)
@@ -73,11 +102,12 @@ Map gapped PWM to a genome.
 ### Return:
 <pre>A GRanges of the center microexon and the flanking exons and introns. </pre>
 
-## 6. MEPer.R
-Find miroexons in a plant genome.
+## 6. MEPscan.R
+Find miroexons in a plant genome using mapPWM.R and mex_pattern_blast.rda 
+(a .RData file containing information of microexon-tags in 45 conserved clusters).
 
 ### Usage:
-> MEPer(genome, min.score="80%",include.intronLoss=TRUE,
+> MEPscan(genome, min.score="80%",include.intronLoss=TRUE,
         span=20000, min.intron=20, max.intron=10000, cores=1)
         
 ### Return

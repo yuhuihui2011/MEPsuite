@@ -6,19 +6,18 @@
 #' @param bg a ballgown object
 #' @param genome a DNAStringSet object of genomic sequences
 #' @param min.junction set the minimual junction reads for the flanking introns 
-#' @param samples a subset of samples
+#' @param min.samples set the minimual samples containing junction reads for the flanking introns
 #' @return a list of exons and introns.
 
-getex<-function(bg, genome, min.junction=5,samples=sampleNames(bg)){
+getex<-function(bg, genome, min.junction=5, min.samples=1){
     library(ballgown)
     library(GenomicRanges)
     library(Biostrings)
     library(BSgenome)
-    library(matrixStats)
     exon<-structure(bg)$exon
     intron<-structure(bg)$intron
-    ie<-subset(iexpr(bg,'rcount'),select=sampleNames(bg) %in% samples)
-    int<-intron[rowMaxs(ie)>=min.junction]
+    ie<-iexpr(bg,'rcount')
+    int<-intron[rowSums(ie>=min.junction)>=min.samples]
     int_seq<-genome[int]
     int<-int[(subseq(int_seq,1,2)=='GT' | subseq(int_seq,1,2)=='GC') &
                  subseq(int_seq,width(int_seq)-1,width(int_seq))=='AG']
