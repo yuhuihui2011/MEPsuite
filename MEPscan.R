@@ -24,7 +24,8 @@ MEPscan<-function(genome, min.score='80%',include.intronLoss=TRUE,
     res<-GRanges()
     for(i in seq(nrow(MEPdata))) {
         cat(sprintf('%s ..... Cluster %d (size: %d; phase: %d; motif: %s)\n',
-            Sys.time(),i,MEPdata[i,1],MEPdata[i,2],MEPdata[i,3]))
+                    Sys.time(),MEPdata$cluster[i],MEPdata$size[i],MEPdata$phase[i],
+                    MEPdata$motif[i]))
         cons<- consensusMatrix(unique(c(MEPdata$nt[[i]],
                                         MEPdata$blast[[i]])))[DNA_BASES,]
         exons<-MEPdata$blocks[[i]]
