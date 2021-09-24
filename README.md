@@ -104,8 +104,8 @@ Map gapped PWM to a genome.
 <pre>A GRanges of the center microexon and the flanking exons and introns. </pre>
 
 ## 6. MEPscan.R
-Find miroexons in a plant genome using mapPWM.R and mex_pattern_blast.rda 
-(a .RData file containing information of microexon-tags in 45 conserved clusters).
+Find miroexons in a plant genome using mapPWM.R and MEPdata.RData 
+(MEPdata contains the information of microexon-tags in 45 conserved clusters).
 
 ### Usage:
 > MEPscan(genome, min.score="80%",include.intronLoss=TRUE,
