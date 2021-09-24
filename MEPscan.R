@@ -1,11 +1,13 @@
-######### find microexons in a plant genome
-MEPer<-function(genome, min.score='80%',include.intronLoss=TRUE,
+######### scan microexons in a plant genome
+MEPscan<-function(genome, min.score='80%',include.intronLoss=TRUE,
                 span=20000, min.intron=20, max.intron=10000, cores=1) {
     source('mapPWM.R')
-    load('mex_pattern_blast.rda')
-    suppressMessages(library(Biostrings))
-    suppressMessages(library(GenomicRanges))
-    suppressMessages(library(parallel))
+    load('MEPdata.RData')
+    suppressPackageStartupMessages({
+        library(Biostrings)
+        library(GenomicRanges)
+        library(parallel)
+    })
     cat(paste(t0<-Sys.time(),'..... started run\n'))
     cat(paste(Sys.time(),'..... loading genome\n'))
     if (class(genome)!='DNAStringSet') {
@@ -20,19 +22,19 @@ MEPer<-function(genome, min.score='80%',include.intronLoss=TRUE,
     prior.params=letterFrequency(genome[[1]],DNA_BASES,as.prob = T)
     cat(paste(Sys.time(),'..... finished loading genome\n'))
     res<-GRanges()
-    for(i in seq(nrow(mex_pattern))) {
+    for(i in seq(nrow(MEPdata))) {
         cat(sprintf('%s ..... Cluster %d (size: %d; phase: %d; motif: %s)\n',
-            Sys.time(),i,mex_pattern[i,1],mex_pattern[i,2],mex_pattern[i,3]))
-        cons<- consensusMatrix(unique(c(mex_pattern$nt[[i]],
-                                        mex_pattern$blast[[i]])))[DNA_BASES,]
-        exons<-mex_pattern$blocks[[i]]
-        res_i<-mapPWM(cons,exons,genome,focus=mex_pattern$me_order[i],
+            Sys.time(),i,MEPdata[i,1],MEPdata[i,2],MEPdata[i,3]))
+        cons<- consensusMatrix(unique(c(MEPdata$nt[[i]],
+                                        MEPdata$blast[[i]])))[DNA_BASES,]
+        exons<-MEPdata$blocks[[i]]
+        res_i<-mapPWM(cons,exons,genome,focus=MEPdata$me_order[i],
                       min.score,include.intronLoss,span, min.intron, max.intron,
                       prior.params=prior.params,cores = cores,check.params = FALSE)
         if (length(res_i)==0) next
         res_i$block.starts<-do.call(c,apply(res_i$block.starts, 1, IntegerList))
         res_i$block.sizes<-do.call(c,apply(res_i$block.sizes, 1, IntegerList))
-        res_i$cluster<-i
+        res_i$cluster<-MEPdata$cluster[i]
         suppressWarnings(res<-c(res,res_i))
     }
     cat(paste(t1<-Sys.time(),'..... finished successfully\n'))
