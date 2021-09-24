@@ -1,8 +1,9 @@
-# MEP: Discovery and Prediction of **M**icro**E**xons in **P**lants
+# MEP: Codes for Discovery and Prediction of <i>M</i>icro<i>E</i>xons in <i>P</i>lants
 
-#### The pipeline golden_map.py can be used for general RNA-seq mapping and gene expression analysis in plants.
-#### There is a strand-alone tool [MEPscan](https://github.com/yuhuihui2011/MEPscan) for micreoxon prediction in plants. 
-#### The flow chart of the whole pipeline is as follows:
++ The pipeline golden_map.py can be used for general RNA-seq mapping and gene expression analysis in plants.
++ There is a strand-alone tool [MEPscan](https://github.com/yuhuihui2011/MEPscan) for micreoxon prediction in plants. 
++ The flow chart of the whole pipeline is as follows:
+
 ![MEP_workflow](MEP_workflow.png)
 
 ## 1. golden_map.py
