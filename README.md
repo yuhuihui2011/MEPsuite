@@ -1,4 +1,4 @@
-# MEP: Discovery and Prediction of <i>M</i>icro<i>E</i>xons in <i>P</i>lants
+# MEPsuite: Discovery and Prediction of <i>M</i>icro<i>E</i>xons in <i>P</i>lants
 
 + The pipeline golden_map.py can be used for general RNA-seq mapping and gene expression analysis in plants.
 + There is a strand-alone tool [MEPscan](https://github.com/yuhuihui2011/MEPscan) for micreoxon prediction in plants. 
@@ -11,13 +11,22 @@ A python pipeline of short-read RNA-seq mapping in plants:
 1. First round of mappping using [STAR](https://github.com/alexdobin/STAR)
 2. Generate new genome index for [STAR](https://github.com/alexdobin/STAR) 
 3. second round of mappping using [STAR](https://github.com/alexdobin/STAR)
-4. Assemble novel transcripts with [StringTie](https://github.com/gpertea/stringtie)
-5. Estimate gene expression with [StringTie](https://github.com/gpertea/stringtie)
+4. Assemble novel transcripts using [StringTie](https://github.com/gpertea/stringtie)
+5. Estimate gene expression using [StringTie](https://github.com/gpertea/stringtie)
 
 ### Note:
 + The ouput is ready for input of [Ballgown](https://github.com/alyssafrazee/ballgown).
 + Additaional splice junction information can be added from the result of other tools, 
-such as [OLego](https://github.com/chaolinzhanglab/olego).
+such as [OLego](https://github.com/chaolinzhanglab/olego). Here is an example:
+```
+for file in simulated_reads/*.fq.gz; do 
+    sample=$(basename "$file" | sed "s/.fq.gz//")
+    olego -t 16 -e 3 -I 20000 --max-multi 5 olego_idx simulated_reads/$sample.fq.gz | samtools sort -o olego_out/$sample.bam
+    samtools view olego_out/$sample.bam | sam2bed.pl -r - - | bed2junc.pl - olego_out/$sample.junc
+done
+
+cat olego_out/*.junc | awk '{OFS="\t"}{$2=$2+1}{print $1,$2,$3,$6}' > olego_junc.SJ
+```
 
 ### Usage:
 > python3 golden_map.py -h
