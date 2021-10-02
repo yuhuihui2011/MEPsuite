@@ -48,10 +48,10 @@ mapPWM.0<-function(cons,exons,genome,min.score="80%",include.intronLoss=TRUE,
                 exons[2],distance(e2,e3[i]),exons[3],fix.empty.names=F))
             return(e2)
         })
-        me<-do.call(c,me)
+        me<-do.call(c,me[elementNROWS(me)>0])
         me
     },mc.cores = cores)
-    plus<-unlist(IRangesList(plus))
+    plus<-unlist(IRangesList(plus[elementNROWS(plus)>0]))
     if (length(plus)==0) plus<-GRanges() else plus<-GRanges(names(plus),plus,'+')
     
     minus<-mclapply(genome, function(x) {
@@ -84,13 +84,13 @@ mapPWM.0<-function(cons,exons,genome,min.score="80%",include.intronLoss=TRUE,
                 exons[3],fix.empty.names=FALSE))
             return(e2)
         })
-        me<-do.call(c,me)
+        me<-do.call(c,me[elementNROWS(me)>0])
         me
     },mc.cores = cores)
-    minus<-unlist(IRangesList(minus))
+    minus<-unlist(IRangesList(minus[elementNROWS(minus)>0]))
     if (length(minus)==0) minus<-GRanges() else minus<-GRanges(names(minus),minus,'-')
     
-    res<-suppressWarnings(c(plus,minus))
+    res<-suppressWarnings(append(plus,minus))
     res<-res[grep("\\*",res$AA,invert = TRUE)]
     if(length(res)>0) {
         res$score<-round(sapply(res$NT, function(x) PWMscoreStartingAt(pwm,x)),4)
@@ -195,10 +195,10 @@ mapPWM<-function(cons,exons,genome,focus=2, min.score='80%',include.intronLoss=T
             }))
             return(ir)
         })
-        me<-do.call(c,me)
+        me<-do.call(c,me[elementNROWS(me)>0])
         me
     },mc.cores = cores)
-    plus<-unlist(IRangesList(plus))
+    plus<-unlist(IRangesList(plus[elementNROWS(plus)>0]))
     if (length(plus)==0) plus<-GRanges() else plus<-GRanges(names(plus),plus,'+')
     
     minus<-mclapply(genome, function(x) {
@@ -262,13 +262,13 @@ mapPWM<-function(cons,exons,genome,focus=2, min.score='80%',include.intronLoss=T
             }))
             return(ir)
         })
-        me<-do.call(c,me)
+        me<-do.call(c,me[elementNROWS(me)>0])
         me
     },mc.cores = cores)
-    minus<-unlist(IRangesList(minus))
+    minus<-unlist(IRangesList(minus[elementNROWS(minus)>0]))
     if (length(minus)==0) minus<-GRanges() else minus<-GRanges(names(minus),minus,'-')
     
-    res<-suppressWarnings(c(plus,minus))
+    res<-suppressWarnings(append(plus,minus))
     res<-res[grep("\\*",res$AA,invert = TRUE)]
     if(length(res)>0) {
         res$score<-round(sapply(res$NT, function(x) PWMscoreStartingAt(pwm,x)),4)

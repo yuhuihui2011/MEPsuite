@@ -36,7 +36,7 @@ MEPscan<-function(genome, min.score='80%',include.intronLoss=TRUE,
         res_i$block.starts<-do.call(c,apply(res_i$block.starts, 1, IntegerList))
         res_i$block.sizes<-do.call(c,apply(res_i$block.sizes, 1, IntegerList))
         res_i$cluster<-MEPdata$cluster[i]
-        suppressWarnings(res<-c(res,res_i))
+        suppressWarnings(res<-append(res,res_i))
     }
     cat(paste(t1<-Sys.time(),'..... finished successfully\n'))
     cat(sprintf('### total regions found:\t%d\n', length(res)))
