@@ -1,7 +1,7 @@
-# MEPsuite: Discovery and Prediction of <i>M</i>icro<i>E</i>xons in <i>P</i>lants
+# MEPsuite: Discovery and Prediction of <i>M</i>icro<i>E</i>xons in <i>P</i>lant genomes
 
-+ The pipeline golden_map.py can be used for general RNA-seq mapping and gene expression analysis in plants.
-+ There is a strand-alone tool [MEPscan](https://github.com/yuhuihui2011/MEPscan) for micreoxon prediction in plants. 
++ The pipeline golden_map.py can be used for general RNA-seq mapping and gene expression analysis in plant genomes.
++ There is a strand-alone R package [MEPmodeler](https://github.com/yuhuihui2011/MEPmodeler) for microexon prediction in plant genomes. 
 + The flow chart of the whole pipeline is as follows:
 
 ![MEP_workflow](MEP_workflow.png)
@@ -122,3 +122,4 @@ Find miroexons in a plant genome using mapPWM.R and MEPdata.RData
         
 ### Return
 <pre>A GRanges of microexons and the flanking exons and introns in all clusters in a plant genome. </pre>
+For more details, please see function ***MEPmod*** in [MEPmodeler](https://github.com/yuhuihui2011/MEPmodeler).
