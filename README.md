@@ -2,7 +2,7 @@
 
 + The scripts are for the paper entitled "Pervasive misannotation of microexons that are evolutionarily conserved and crucial for gene function in plants" by Huihui Yu et al. *Nat Commun* **13**, 820 (2022). https://doi.org/10.1038/s41467-022-28449-8
 + The pipeline golden_map.py can be used for general RNA-seq mapping and gene expression analysis in plant genomes.
-+ There is a strand-alone R package [MEPmodeler](https://github.com/yuhuihui2011/MEPmodeler) for microexon prediction/modeling in plant genomes. 
++ There is a stand-alone R package [MEPmodeler](https://github.com/yuhuihui2011/MEPmodeler) for microexon prediction/modeling in plant genomes. 
 + The flow chart of the whole pipeline is as follows:
 
 ![MEP_workflow](MEP_workflow.png)
